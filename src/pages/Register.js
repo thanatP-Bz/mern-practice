@@ -1,64 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
+import { FormRow } from "../components";
+const initateState = {
+  name: "",
+  password: "",
+  email: "",
+  isMember: true,
+};
 
 const Register = () => {
+  const [values, setValues] = useState({ initateState });
+
+  const toggleMember = () => {
+    setValues({ ...values, isMember: !values.isMember });
+  };
+
+  const formSubmit = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
+
+  const handleChange = (e) => {
+    console.log(e.target);
+  };
   return (
-    <div className="flex h-screen justify-center items-center">
-      <div class="w-full max-w-xs">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h3 className="mb-7 text-2xl text-center">Login</h3>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="username"
-            >
-              Username
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
+    <div className="flex h-screen justify-center items-center bg-gray-100">
+      <div className="w-full max-w-xs">
+        <form
+          onSubmit={formSubmit}
+          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        >
+          <h3 className="mb-7 text-2xl text-center font-bold ">
+            {values.isMember ? "Login" : "Register"}
+          </h3>
+          {/* input name */}
+          {!values.isMember && (
+            <FormRow
               type="text"
-              placeholder="Username"
+              value={values.name}
+              name="name"
+              placeholder="name"
+              handleChange={handleChange}
             />
-          </div>
-          <div class="mb-4">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="username"
-            >
-              email
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="username"
-              type="text"
-              placeholder="Username"
-            />
-          </div>
-          <div class="mb-6">
-            <label
-              class="block text-gray-700 text-sm font-bold mb-2"
-              for="password"
-            >
-              Password
-            </label>
-            <input
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="password"
-              type="password"
-              placeholder="******************"
-            />
-          </div>
-          <div class="flex items-center justify-between">
+          )}
+          {/* input password */}
+          <FormRow
+            type="text"
+            value={values.password}
+            name="password"
+            placeholder="password"
+          />
+          {/* input email */}
+          <FormRow
+            type="email"
+            value={values.email}
+            name="email"
+            placeholder="email"
+            handleChange={handleChange}
+          />
+          <div className="flex items-center justify-between">
             <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="button"
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
-              Sign In
+              submit
             </button>
           </div>
         </form>
-        <p class="text-center text-gray-500 text-xs">
-          &copy;2020 Acme Corp. All rights reserved.
+        <p className="text-center text-gray-500 text-xs">
+          {values.isMember ? "Not a member yet ?" : "Already a member ?"}
+          <button className="ml-1 text-blue-500" onClick={toggleMember}>
+            {values.isMember ? "register" : " log in"}
+          </button>
         </p>
       </div>
     </div>
