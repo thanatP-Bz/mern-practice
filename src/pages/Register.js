@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { FormRow } from "../components";
-const initateState = {
+import { FormRow, Alert } from "../components";
+import { Link } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
+
+const initialState = {
   name: "",
   password: "",
   email: "",
@@ -8,7 +11,10 @@ const initateState = {
 };
 
 const Register = () => {
-  const [values, setValues] = useState({ initateState });
+  const [values, setValues] = useState(initialState);
+
+  //global values
+  const { showAlert, displayAlert } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -16,12 +22,18 @@ const Register = () => {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target);
+    const { name, email, password, isMember } = values;
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert();
+      return;
+    }
+    console.log(values);
   };
 
   const handleChange = (e) => {
-    console.log(e.target);
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
+
   return (
     <div className="flex h-screen justify-center items-center bg-gray-100">
       <div className="w-full max-w-xs">
@@ -32,6 +44,7 @@ const Register = () => {
           <h3 className="mb-7 text-2xl text-center font-bold ">
             {values.isMember ? "Login" : "Register"}
           </h3>
+          {showAlert && <Alert />}
           {/* input name */}
           {!values.isMember && (
             <FormRow
@@ -48,6 +61,7 @@ const Register = () => {
             value={values.password}
             name="password"
             placeholder="password"
+            handleChange={handleChange}
           />
           {/* input email */}
           <FormRow
@@ -60,7 +74,7 @@ const Register = () => {
           <div className="flex items-center justify-between">
             <button
               type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              className="bg-orange-300 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
             >
               submit
             </button>
@@ -71,6 +85,11 @@ const Register = () => {
           <button className="ml-1 text-blue-500" onClick={toggleMember}>
             {values.isMember ? "register" : " log in"}
           </button>
+          <br />
+          <Link to="/" className="text-blue-500">
+            {" "}
+            back to home
+          </Link>
         </p>
       </div>
     </div>

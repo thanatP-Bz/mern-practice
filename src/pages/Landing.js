@@ -1,5 +1,6 @@
 import React from "react";
 import designer from "../assets/designer.svg";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -14,9 +15,12 @@ const Landing = () => {
           consequuntur dolor eius error asperiores accusantium aliquid debitis
           cumque vitae.
         </p>
-        <button className="bg-orange-300 px-7 py-2 rounded text-white hover:bg-slate-600">
+        <Link
+          to="/register"
+          className="bg-orange-300 px-7 py-2 rounded text-white hover:bg-orange-500 "
+        >
           Register/Login
-        </button>
+        </Link>
       </div>
     </div>
   );
